@@ -1,0 +1,190 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.navbar, .bg {
+    margin: 0;
+    padding: 0;
+}
+
+.bg {
+    position: relative;
+    width: 100vw;
+    height: 1024px; /* 배경 높이를 1024px로 제한 */
+    background-image: url("../img/login.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+
+
+.time {margin-top: 90px;}
+
+.timeText {
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    padding-top: 60px;
+    margin: 0;
+}
+
+.clock {
+	display: block;
+	width: 85px;
+	height: 85px;
+	margin-top: 52px;
+	margin-left: 37%;
+}
+
+.time {
+	color: white;
+}
+
+.serverTime {
+	font-size: 95px;
+	margin-left: 44%;
+	margin-top: -35px;
+}
+
+.display {
+    align-items: center;
+    margin-top: 100px;
+}
+
+.timeTable {
+	float: left;
+	text-align: center;
+	margin-left: 12%;
+	margin-top: 5%;
+}
+
+.login {
+	position: relative;
+	width: 520px;
+	height: 480px;
+	background-image: url("../img/login-box.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    float: right;
+    margin-right: 14%;
+    margin-top: -3.5%;
+}
+
+.input-group1 {
+	margin-left: 27%;
+	margin-top: 140px;
+}
+
+.input-group2 {
+	margin-left: 27%;
+}
+
+.id-img {
+	position:absolute;
+	top: 153px;
+	left: 150px;
+	width: 25px;
+	height: 25px;
+	
+}
+
+.pw-img {
+	position:absolute;
+	top: 228px;
+	left: 150px;
+	width: 27px;
+	height: 26px;
+}
+
+.form-style {
+	background-color: white;
+	border: none;
+	width: 270px;
+	height: 40px;
+	font-size: 20px;
+	margin-bottom: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 42px;
+}
+
+input::placeholder {
+	font-size: 15px;
+	color : #b3b3b3;
+}
+
+.button {
+	width: 315px;
+	height: 55px;
+	color: white;
+	background-color: #204B8F;
+	border: none;
+	margin-left: 27%;
+	font-size: 20px;
+}
+
+.find {
+	display: flex;
+	float: left;
+	margin-left: 34%;
+}
+
+.find p {
+	margin-right: 40px;
+	text-decoration: underline;
+}
+
+.find a {
+	color: black;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+.admin {
+	width: 100%;
+	display: flex;
+	margin-left: 37%;
+	text-decoration: none;
+	color: red;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+h2 {
+	font-size: 35px;
+	margin-top: 60px;
+	margin-left: 7%;
+}
+
+.box {
+  width: 82%;
+  padding: 20px 35px;
+  border: 2px solid black;
+  margin: 10px 7% 100px 7%;
+  font-size: 20px;
+}
+
+.box ul {
+  padding-left: 20px; /* 목록의 왼쪽 여백 */
+}
+
+.content {
+	font-size: 20px;
+	line-height: 150%;
+}
+
+.red {
+  color: red;
+}
+
+.content a {
+	text-decoration: none;
+}
+
+.click {
+	color: green;
+}

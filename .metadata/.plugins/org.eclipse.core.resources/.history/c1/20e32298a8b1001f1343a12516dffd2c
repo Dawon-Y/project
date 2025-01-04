@@ -1,0 +1,209 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page session="true" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name = "viewport" content="width=device-width", initial-scale="1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<title>한성대학교 수강신청 페이지</title>
+<script>
+function toggleImage() {
+	const call = document.getElementById('call_img');
+	
+	if (call.style.display === 'none' || call.style.display === '') {
+		call.style.display = 'block';
+	} else {
+		call.style.display = 'none';
+	}
+}
+
+let serverTimeElement;
+
+document.addEventListener("DOMContentLoaded", function () {
+    const serverTimeElement = document.getElementById('server-time');
+
+    if (!serverTimeElement) {
+        console.error("server-time element not found in the DOM.");
+        return;
+    }
+
+    function fetchServerTime() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'ServerTime.jsp', true); // ServerTime.jsp로 요청
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) { // 요청 완료 상태
+                if (xhr.status === 200) { // HTTP 200 = 성공
+                    try {
+                        const serverTimeString = xhr.responseText.trim(); // 서버 응답 값
+                        console.log("Server Response:", serverTimeString); // 응답 확인
+                        const serverTime = new Date(serverTimeString); // Date 객체로 변환
+                        updateTimeDisplay(serverTime); // 시간 업데이트
+                    } catch (error) {
+                        console.error("Date parsing failed:", error);
+                        serverTimeElement.textContent = "Error parsing server time.";
+                    }
+                } else {
+                    console.error("Failed to fetch server time. HTTP Status:", xhr.status);
+                    serverTimeElement.textContent = "Failed to load server time. HTTP Status: " + xhr.status;
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function updateTimeDisplay(serverTime) {
+        if (isNaN(serverTime.getTime())) {
+            console.error("Invalid server time:", serverTime);
+            serverTimeElement.textContent = "Invalid server time.";
+            return;
+        }
+
+        // 시간을 "HH:mm:ss" 형식으로 표시
+        const hours = serverTime.getHours().toString().padStart(2, '0');
+        const minutes = serverTime.getMinutes().toString().padStart(2, '0');
+        const seconds = serverTime.getSeconds().toString().padStart(2, '0');
+        serverTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    fetchServerTime(); // 초기 서버 시간 로드
+});
+
+</script>
+</head>
+<body>
+<%@ include file="HeaderAdmin.jsp"%>
+
+<div class="bg">
+	<div class="time">
+	<p class="timeText">한성대 수강신청 페이지 서버 시간</p>
+	<img alt="시계 이미지" src="img/clock.png" class="clock">
+	<p class="serverTime"><%= new java.text.SimpleDateFormat("HH:mm:ss").format(new java.util.Date()) %></p>
+	</div>
+
+<div class="display">
+	<div class="timeTable">
+		<table width=600 height=230 border=1 cellpadding="0" cellspacing="0" bordercolor="#828282">
+			<tr bgcolor="#204B8F">
+				<td><font color=white>학년</font></td>
+				<td><font color=white>수강신청 기간</font></td>
+			</tr>
+			<tr bgcolor=white>
+				<td>1</td>
+				<td>2024.8.22(목)</td>
+			</tr>
+			<tr bgcolor=white>
+				<td>2</td>
+				<td>2024.8.21(수)</td>
+			</tr>
+			<tr bgcolor=white>
+				<td>3</td>
+				<td>2024.8.20(화)</td>
+			</tr>
+			<tr bgcolor=white>
+				<td>4</td>
+				<td>2024.8.19(월)</td>
+			</tr>
+			<tr bgcolor=white>
+				<td>1차 정정</td>
+				<td>2024.8.23(금)</td>
+			</tr>
+			<tr bgcolor=white>
+				<td>2차 정정</td>
+				<td>2024.09.02(월) ~ 09.06(금)</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="login">
+	<%-- 실패 메시지 --%>
+	    <% String message = (String) request.getAttribute("message");
+	        if (message != null) {
+	    %>
+	        <div class="error-message" style="color: red; font-weight: bold; position: absolute; font-size: 18px; top: 110px; left: 148px;">
+	            <%= message %>
+	        </div>
+	    <%
+	        } %>
+	    
+		<form method="post" action="LoginAdminServlet" id="login-form">
+	        <div class="input-group1">
+	            <img src="img/id_icon.png" alt="ID/학번" class="id-img">
+	            <input type="text" name="userName" placeholder="ID/학번" class="form-style">
+	        </div>
+	        <div class="input-group2">
+	            <img src="img/pw_icon.png" alt="비밀번호" class="pw-img">
+	            <input type="password" name="userPassword" placeholder="비밀번호" class="form-style">
+	        </div>
+	        <input type="submit" value="로그인" class="button">
+	    </form>
+		<div class="find">
+		<p><a href="findIdAdmin.jsp" onclick="window.open(this.href, 'newwindow', 'width=400, height=365'); return false;">ID/학번 찾기</a></p>
+	    <p><a href="findPwAdmin.jsp" onclick="window.open(this.href, 'newwindow', 'width=400, height=365'); return false;">비밀번호 찾기</a></p>
+		</div>
+	    <a href="main.jsp" class="admin">학생용 계정으로 로그인-></a>
+	</div>
+</div>
+</div>
+
+<h2>수강신청 유의사항 안내</h2>
+
+<div class="box">
+	<ul class="content">
+		<li>화면 해상도 1920*1080에 최적화 되어 있습니다.</li>
+		<li>트랙제 수강신청 안내영상 바로가기 : <a class="click" href="https://www.youtube.com/watch?v=YXFrvk0iJ3Y&feature=youtu.be" target="_blank">CLICK!!!</a></li>
+		<li>
+			<p>수강신청을 위한 웹브라우저 설정(필수)</p>
+			<p class="red">가. 수강신청 시 웹브라우저 팝업 차단 끄기 (or 예외 적용)</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;- 인터넷 익스플로러 : 도구 -> 팝업 차단 -> 팝업 차단 끄기 or 팝업 차단 설정(예외)<br>	
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;도구 -> 인터넷옵션 -> 검색기록(설정) -> 저장된 페이지의 새버전 확인(웹페이지를 열때마다) 설정<br>
+	       		&nbsp;&nbsp;&nbsp;&nbsp;- 구글 크롬 : 최신버전 업데이트(사용권장)<br>
+	      		&nbsp;&nbsp;&nbsp;&nbsp;- 애플 사파리 : 최신버전 업데이트<br>
+	       		&nbsp;&nbsp;&nbsp;&nbsp;- 모바일 : 최신버전 업데이트</p>
+		</li>
+		<li>
+			<p>수강신청 시스템 제한사항</p>
+			<p>가. 종합정보시스템 중복로그인 불가</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;- 종합정보시스템 중복로그인 시 이전 로그인은 자동 로그아웃 됩니다.</p>
+			<p>나. 시스템 과부하발생 시 IP차단 조치</p>
+			<p class="red">&nbsp;&nbsp;&nbsp;&nbsp;- 동일 과목에 대한 수강신청을 반복적으로 지속 할 경우 해당 접속 IP 혹은 학번이 일정기간(1시간) 자동차단 됩니다. 
+			차단기간 내 해제 불가하오니 주의하시기 바랍니다.</p>
+			<p class="red">&nbsp;&nbsp;&nbsp;&nbsp;- 매크로 사용 조작오류 등으로 수강내역이 삭제될 수 있습니다(복구불가). 주의바랍니다.</p>
+		</li>
+		<li>
+		<p>사이버(Cyber)강좌 안내</p>
+		<p>가. 학점제한 - 한 학기당 교외 사이버강좌의 총수강학점이 6학점을 초과 할 수 없음</p>
+		</li>
+		<li>
+		<p>한양사이버 및 KCU 수강신청 안내(필독)</p>
+		<p>가. 핸드폰/메일 입력시에만 수강가능</p>
+		<p>나. 입력방법 : 종합정보시스템의 학적→학생정보입력</p>
+		</li>
+		<li>
+		<p>수강신청 이월학점 조회 : <a class="click" href="sugang_remain.jsp" onclick="window.open(this.href, 'newwindow', 'width=740, height=520, top=200. left=250'); return false;">CLICK!!!</a></p>
+		</li>
+		<li>
+		<p>수강신청내역 점검</p>
+		<p>가. 수강신청내역 확정 기준일 : 1학기(4월 1일 기준), 2학기(10월 1일 기준)</p>
+		<p>나. 수강신청내역 확정 기준일을 전후하여 수강신청내역을 꼭 확인하시기 바랍니다.</p>
+		</li>
+		<li><p>수강신청 관련문의 : 02-760-4219 (학사지원팀) /
+			<a href="javascript:void(0);" onclick="toggleImage()">각 트랙 및 학과(부) 연락처보기(클릭)</a>
+			</p>
+		</li>
+	</ul>
+	<div id="call_img" style="display: none;">
+		<img src="img/call_infor.jpg" alt="연락처 이미지">
+	</div>
+</div>
+
+<%@ include file="Footer.jsp"%>
+
+</body>
+</html>

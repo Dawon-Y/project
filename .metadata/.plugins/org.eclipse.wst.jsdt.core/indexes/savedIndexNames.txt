@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\UserK\Desktop\HSSG\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1450762872.index
+1468008502.index
+3771373869.index
+1344654213.index
+3381941320.index
+3338681055.index

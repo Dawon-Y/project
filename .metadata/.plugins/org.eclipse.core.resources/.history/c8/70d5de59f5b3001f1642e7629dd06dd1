@@ -1,0 +1,128 @@
+<%@ page import="java.util.*"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+	
+    <title>한성대학교 수강신청 페이지</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <%
+        // 세션 가져오기
+        HttpSession userSession = request.getSession(false); // 세션이 없으면 null 반환
+        String userType = null;
+        Boolean isLoggedIn = false;
+        String previousPage = null;
+
+        if (userSession != null) {
+            userType = (String) userSession.getAttribute("userType");
+            isLoggedIn = (Boolean) userSession.getAttribute("isLoggedIn");
+            previousPage = (String) userSession.getAttribute("previousPage");
+        }
+
+        // 로그인되지 않았을 경우 기본값 설정
+        if (userSession == null || !Boolean.TRUE.equals(isLoggedIn)) {
+            isLoggedIn = false;
+            userType = "guest";
+        }
+
+        // 적절한 헤더 로드
+        String headerPage = "Header.jsp"; // 기본값
+        if (Boolean.TRUE.equals(isLoggedIn)) {
+            if ("admin".equals(userType)) {
+                headerPage = "HeaderAdminLogin.jsp";
+            } else if ("student".equals(userType)) {
+                headerPage = "HeaderStudentLogin.jsp";
+            }
+        } else {
+            if ("notice".equals(previousPage)) {
+                headerPage = "HeaderStudent.jsp"; // notice 페이지 기본 헤더
+            }
+        }
+
+        // 동적으로 헤더 페이지 포함
+        request.getRequestDispatcher(headerPage).include(request, response);
+    %>
+
+<div class="container">
+    <div class="buttons">
+        <button class="sugang-btn" onclick="location.href='CourseRegistration.html'">수강 신청</button>
+        <button class="cart-btn" onclick="location.href='cart.html'">장바구니</button>
+    </div>
+
+<main>
+ <section class="registration" >
+            <!-- <h1>수강신청</h1> -->
+            <form id="registrationForm" action="/Course2system/LectureManagerServlet" method="POST">
+                <!--  <label for="LectureCode"></label>-->
+                <input type="text" id="LectureCode" placeholder="과목코드" name="LectureCode" required>
+                <!--  <label for="division"></label>-->
+                <input type="text" id="division" placeholder="분반" name="division" required>
+            </form>
+            <button class="subBtn" type="submit">신청</button>
+        </section>
+    
+    <section class="subject-list" style="display: flex; flex-direction: column;">
+    	<hr>
+        <h2>개설 과목</h2>
+        <table id="subjectTable">
+            <thead>
+                <tr>
+                    <th>과목 코드</th>
+                    <th>과목명</th>
+                    <th>분반</th>
+                    <th>이수</th>
+                    <th>학점</th>
+                    <th>학년</th>
+                    <th>담당 교수</th>
+                    <th>신청인원</th>
+                    <th>신청</th>
+                    <th>강의시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 과목 데이터가 동적으로 추가됩니다 -->
+            </tbody>
+        </table>
+    </section>
+
+    <section class="registered-courses">
+        <hr>
+        <h2>시간표</h2>
+        <table id="registeredCoursesTable">
+            <thead>
+                <tr>
+                    <th>과목 코드</th>
+                    <th>과목명</th>
+                    <th>강의시간</th>
+                    <th>취소</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 수강신청한 과목이 여기에 동적으로 추가됩니다 -->
+            </tbody>
+        </table>
+    </section>
+</main>
+</div>
+
+<footer>
+<div class="text">
+	<ul class="fText">
+	<li><p class="left">개인정보처리방침</p></li>
+	<li><p class="infor">주소: [02876] 서울특별시 성북구 삼선교로 16길 116(삼선동2가)  Tel : 02-760-4114<br>
+		Copyright 2024. HANSUNG UNIVERSITY All Rights Reserved.</p></li>
+	</ul>
+</div>
+<div class="fLogo"><p><img src="img/logo.png" alt="한성대 로고"></p></div>
+</footer>
+
+</body>
+</html>
+

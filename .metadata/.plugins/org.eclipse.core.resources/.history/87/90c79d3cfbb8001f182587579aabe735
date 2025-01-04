@@ -1,0 +1,134 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%
+    // 세션을 가져오고, 세션이 없을 경우 null 처리
+    HttpSession userSession = request.getSession(false); // 세션이 없을 경우 null 반환
+    String userType = null;
+    Boolean isLoggedIn = false;
+    String previousPage = null;
+
+    if (userSession != null) {
+        // 세션에서 필요한 값들 가져오기
+        userType = (String) userSession.getAttribute("userType");
+        isLoggedIn = (Boolean) userSession.getAttribute("isLoggedIn");
+        previousPage = (String) userSession.getAttribute("previousPage");
+    }
+
+    // 로그인되지 않았을 경우 기본값 설정 (guest)
+    if (userSession == null || !Boolean.TRUE.equals(isLoggedIn)) {
+        isLoggedIn = false; // 로그인되지 않은 상태
+        userType = "guest"; // 기본값으로 guest 설정
+    }
+
+    // 이전 페이지에 맞는 헤더 로드
+    if (previousPage != null) {
+        if ("notice".equals(previousPage)) {
+            // 로그인된 경우 헤더를 로그인된 상태로 표시
+            if (Boolean.TRUE.equals(isLoggedIn)) {
+                if ("admin".equals(userType)) {
+                    request.getRequestDispatcher("HeaderAdminLogin.jsp").include(request, response);
+                } else if ("student".equals(userType)) {
+                    request.getRequestDispatcher("HeaderStudentLogin.jsp").include(request, response);
+                }
+            } else {
+                // 로그인되지 않은 경우 헤더를 비로그인 상태로 표시
+                request.getRequestDispatcher("Header.jsp").include(request, response);
+            }
+        }
+    } else {
+        // 기본적으로 사용자 타입에 맞는 헤더 로딩
+        if (Boolean.TRUE.equals(isLoggedIn)) {
+            // 로그인된 상태에서 헤더 처리
+            if ("admin".equals(userType)) {
+                request.getRequestDispatcher("HeaderAdminLogin.jsp").include(request, response);
+            } else if ("student".equals(userType)) {
+                request.getRequestDispatcher("HeaderStudentLogin.jsp").include(request, response);
+            }
+        } else {
+            // 로그인되지 않은 상태에서는 기본으로 Header.jsp를 로드
+            request.getRequestDispatcher("Header.jsp").include(request, response);
+        }
+    }
+%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name = "viewport" content="width=device-width", initial-scale="1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/Infor.css">
+<title>한성대학교 수강신청 페이지</title>
+</head>
+<script>
+function toggleImage() {
+	const call = document.getElementById('call_img');
+	
+	if (call.style.display === 'none' || call.style.display === '') {
+		call.style.display = 'block';
+	} else {
+		call.style.display = 'none';
+	}
+}
+</script>
+<body>
+
+<h2>수강신청 유의사항 안내</h2>
+
+<div class="box">
+	<ul class="content">
+		<li>화면 해상도 1440*1024에 최적화 되어 있습니다.</li>
+		<li>트랙제 수강신청 안내영상 바로가기 : <a href="https://www.youtube.com/watch?v=YXFrvk0iJ3Y&feature=youtu.be" target="_blank" class="click">CLICK!!!</a></li>
+		<li>
+			<p>수강신청을 위한 웹브라우저 설정(필수)</p>
+			<p class="red">가. 수강신청 시 웹브라우저 팝업 차단 끄기 (or 예외 적용)</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;- 인터넷 익스플로러 : 도구 -> 팝업 차단 -> 팝업 차단 끄기 or 팝업 차단 설정(예외)<br>	
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;도구 -> 인터넷옵션 -> 검색기록(설정) -> 저장된 페이지의 새버전 확인(웹페이지를 열때마다) 설정<br>
+	       		&nbsp;&nbsp;&nbsp;&nbsp;- 구글 크롬 : 최신버전 업데이트(사용권장)<br>
+	      		&nbsp;&nbsp;&nbsp;&nbsp;- 애플 사파리 : 최신버전 업데이트<br>
+	       		&nbsp;&nbsp;&nbsp;&nbsp;- 모바일 : 최신버전 업데이트</p>
+		</li>
+		<li>
+			<p>수강신청 시스템 제한사항</p>
+			<p>가. 종합정보시스템 중복로그인 불가</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;- 종합정보시스템 중복로그인 시 이전 로그인은 자동 로그아웃 됩니다.</p>
+			<p>나. 시스템 과부하발생 시 IP차단 조치</p>
+			<p class="red">&nbsp;&nbsp;&nbsp;&nbsp;- 동일 과목에 대한 수강신청을 반복적으로 지속 할 경우 해당 접속 IP 혹은 학번이 일정기간(1시간) 자동차단 됩니다. 
+			차단기간 내 해제 불가하오니 주의하시기 바랍니다.</p>
+			<p class="red">&nbsp;&nbsp;&nbsp;&nbsp;- 매크로 사용 조작오류 등으로 수강내역이 삭제될 수 있습니다(복구불가). 주의바랍니다.</p>
+		</li>
+		<li>
+		<p>사이버(Cyber)강좌 안내</p>
+		<p>가. 학점제한 - 한 학기당 교외 사이버강좌의 총수강학점이 6학점을 초과 할 수 없음</p>
+		</li>
+		<li>
+		<p>한양사이버 및 KCU 수강신청 안내(필독)</p>
+		<p>가. 핸드폰/메일 입력시에만 수강가능</p>
+		<p>나. 입력방법 : 종합정보시스템의 학적→학생정보입력</p>
+		</li>
+		<li>
+		<p>수강신청 이월학점 조회 : <a class="click" href="sugang_remain.jsp" onclick="window.open(this.href, 'newwindow', 'width=750, height=520, top=200. left=250'); return false;">CLICK!!!</a></p>
+		</li>
+		<li>
+		<p>수강신청내역 점검</p>
+		<p>가. 수강신청내역 확정 기준일 : 1학기(4월 1일 기준), 2학기(10월 1일 기준)</p>
+		<p>나. 수강신청내역 확정 기준일을 전후하여 수강신청내역을 꼭 확인하시기 바랍니다.</p>
+		</li>
+		<li><p>수강신청 관련문의 : 02-760-4219 (학사지원팀) /
+			<a href="javascript:void(0);" onclick="toggleImage()">각 트랙 및 학과(부) 연락처보기(클릭)</a>
+			</p>
+		</li>
+	</ul>
+	<div id="call_img" style="display: none;">
+		<img src="img/call_infor.jpg" alt="연락처 이미지">
+	</div>
+</div>
+
+<%@ include file="Footer.jsp"%>
+</body>
+</html>

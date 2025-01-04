@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+#InputTable {
+width : 1400px;
+margin-left : auto;
+margin-right : auto;
+font-size : 14px;
+border-collapse : collapse;
+}
+
+#InputTrId1 {
+height : 35px;
+border-bottom : 1px solid black;
+border-top : 1px solid black;
+text-align : center;
+background-color : #F9F5F9 ;
+}
+
+#listHr{
+border : 0px;
+height : 2px;
+background : black;
+width : 20px;
+margin-left : 60px;
+}
+
+#listTitle {
+font-size : 25x;
+margin-left : 60px;
+}
+
+#InputHr{
+border : 0px;
+height : 2px;
+background : black;
+width : 20px;
+margin-left : 60px
+}
+
+#InputTrId2 {
+height : 40px;
+border-bottom : 1px solid #C2C5CC ;
+}
+
+#send {
+background-color : black;
+border-radius :5px;
+color : white;
+}
+
+#t1,#t2,#t3,#t4,#t5,#t6,#t7,#t8,#t9,#t10,#t11,#t12,#t13,#t14,#t15,#t16,#t17,#t18 {
+width : 55px;
+}
+
+#listTable { 
+width : 1400px;
+margin-left : auto;
+margin-right : auto;
+border-collapse : collapse;
+text-align : center;
+}
+
+#listTr {
+height : 35px;
+background-color:black;
+color : white;
+height : 40px;
+font-size : 20px;
+}
+
+#listLecTr { 
+border-bottom: 1px solid #C2C5CC;
+height : 40px;
+font-size : 17px;
+}
+
+#InputTitle {
+font-size : 25px;
+margin-left : 60px;
+}
+
+#edit {
+background-color : black;
+border-radius :5px;
+color : white;
+}
+
+#delete {
+background-color : #333435;
+border-radius :5px;
+color : white;
+}
+
+#listTitle { 
+margin-left : 60px;
+font-size : 25px;
+}
+
+#planTitle { 
+text-align : center;
+}

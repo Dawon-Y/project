@@ -1,0 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="css/Footer.css" rel = "stylesheet">
+</head>
+<footer>
+<div class="text">
+	<ul class="fText">
+	<li><p class="left">개인정보처리방침</p></li>
+	<li><p class="infor">주소: [02876] 서울특별시 성북구 삼선교로 16길 116(삼선동2가)  Tel : 02-760-4114<br>
+		Copyright 2024. HANSUNG UNIVERSITY All Rights Reserved.</p></li>
+	</ul>
+</div>
+<div class="fLogo"><p><img src="img/logo.png" alt="한성대 로고"></p></div>
+</footer>
+</html>

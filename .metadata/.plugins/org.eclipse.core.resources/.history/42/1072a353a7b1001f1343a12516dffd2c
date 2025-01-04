@@ -1,0 +1,146 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="dto.lecture"%>
+<%@ page import="dao.lectures"%>
+<%@ page import="java.util.*"%>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+
+#downloadBtn {
+margin-left : 5%;
+margin-top : 5%;
+background : #204B8F;
+border-radius :5px;
+color : white;
+border: none;
+height : 30px;
+width : 130px;
+padding: 5px;
+}
+
+#planTable {
+margin-left : auto;
+margin-right : auto;
+border-collapse : collapse;
+width : 90%;
+text-align : center;
+}
+
+
+tr {
+border : 1px;
+font-size : 12px;
+height : 30px;
+border-bottom : 1px solid #D1D3D4;
+border-top : 1px solid #D1D3D4;
+line-height : 25px;
+padding : 30px;
+}
+
+#code, #track, #credit, #name, #grade, #division, #prof, #sort, #classRoom, #time, #information { 
+background-color : #204B8F;
+color : white;
+}
+#information1 {
+padding : 10px 20px;
+}
+
+#planTitle {
+font-size : 20px;
+margin-left : 5%;
+}
+
+#planHr {
+border : 0px;
+height : 2px;
+background : #353D89;
+width : 15px;
+margin-left : 5%;
+}
+ 
+#plan_div {
+margin-bottom : 5px;
+}
+
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#downloadBtn").on("click",function(){
+	html2canvas($('#plan_div')[0]).then(function(canvas){
+	var planImg = document.createElement("a");
+	planImg.download = "LecturePlan.png";
+	planImg.href=canvas.toDataURL();
+	document.body.appendChild(planImg);
+	planImg.click();
+	});
+	});
+	});
+</script>
+
+<meta charset="UTF-8">
+<title>강의 계획서</title>
+</head>
+<body>
+
+<%
+lectures dao = lectures.getInstance();
+ArrayList<lecture> lecturess = dao.getAllLectures();
+
+int index = Integer.parseInt(request.getParameter("index"));
+
+lecture lecture = lecturess.get(index);
+%>
+<form > 
+<input id = "downloadBtn" type = "button" value = "강의 계획서 다운로드"> </input>  
+</form>
+
+<div id ="plan_div">
+<br><br>
+<hr id = "planHr">
+<p id = "planTitle"> 강의 계획서 </p>
+<table id = "planTable"> 
+<tr id = "planTr"> 
+<td id = "track"> 트랙 </td>
+<td colspan = "3"> <%=lecture.getLectureTrack()%> </td>
+</tr> 
+<tr> 
+<td id = "code"> 코드 
+<td id = "code1" > <%=lecture.getLectureCode()%>
+<td id = "name"> 이름 
+<td id = "name1" > <%=lecture.getLectureName()%>
+</tr>
+<tr>
+<td id = "credit"> 학점 
+<td id = "credit1" > <%=lecture.getLectureCredit()%>
+<td id = "grade"> 학년 
+<td id = "grade1" > <%=lecture.getLectureGrade()%>
+</tr>
+<tr> 
+<td id = "sort"> 분류 
+<td id = "sort1" > <%=lecture.getLectureSort()%>
+<td id = "prof"> 교수님 
+<td id = "prof1" > <%=lecture.getLectureProf()%>
+</tr>
+<tr> 
+<td id = "division"> 분반  
+<td id = "division1" > <%=lecture.getLectureDivision()%>
+<td id = "classRoom"> 강의실 
+<td id = "classRoom1" > <%=lecture.getLectureClassRoom()%>
+</tr>
+<tr>
+<td id = "time"> 시간 </td>
+<td colspan = "3" id = "time1"> <%=lecture.getLectureDay1()%>  <%=lecture.getLectureStart1() %>  <%=lecture.getLectureEnd1()%> <br>  <%=lecture.getLectureDay2()%>  <%=lecture.getLectureStart2()%>  <%=lecture.getLectureEnd2()%> </td>
+</tr>
+<tr> <td id = "information" colspan = "6"> 정보 </td> </tr>
+<tr> <td id = "information1" colspan = "6"> <%=lecture.getLectureInformation() %> </td> </tr>
+</table>
+<br><br><br><br><br><br>
+</div>
+</body>
+</html>
